@@ -4,9 +4,7 @@ import React, { useCallback } from "react";
 import { DownloadButtonProps } from "../types";
 import { generateCsvContent } from "../utils/generateCSV";
 
-function DownloadButton<
-  T extends Record<string, string | number | boolean | null | undefined>
->(props: DownloadButtonProps<T>) {
+function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
   const {
     data,
     filename,
@@ -23,7 +21,7 @@ function DownloadButton<
 
   const handleDownload = useCallback(() => {
     if (!data || data.length === 0) {
-      if (onError) onError(new Error("No data"));
+      if (onError) onError(new Error("No data available"));
       return;
     }
 
