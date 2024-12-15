@@ -1,14 +1,16 @@
-interface GenerateCsvOptions<T extends Record<string, unknown>> {
+interface GenerateCsvOptions<
+  T extends Record<string, string | number | boolean | null | undefined>
+> {
   data: T[];
   delimiter: string;
   quoteValues: boolean;
-  transformValue?: (value: unknown, key: keyof T, row: T) => string;
+  transformValue?: (value: T[keyof T], key: keyof T, row: T) => string;
   customHeaders?: string[];
 }
 
-export function generateCsvContent<T extends Record<string, unknown>>(
-  options: GenerateCsvOptions<T>
-): string {
+export function generateCsvContent<
+  T extends Record<string, string | number | boolean | null | undefined>
+>(options: GenerateCsvOptions<T>): string {
   const { data, delimiter, quoteValues, transformValue, customHeaders } =
     options;
 
@@ -25,7 +27,7 @@ export function generateCsvContent<T extends Record<string, unknown>>(
   const rows = data
     .map((row) =>
       keys
-        .map((key, index) => {
+        .map((key) => {
           const rawValue = row[key];
           const transformed = transformValue
             ? transformValue(rawValue, key, row)

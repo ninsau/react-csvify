@@ -4,7 +4,6 @@ A composable, extensible, and fully typed React component for generating and dow
 
 ## Features
 
-- **No `any` Types**: Strictly typed with generics for safer, more predictable integrations.
 - **Transform & Customize Data**: Easily manipulate values before they hit the CSV file.
 - **Custom Headers & Formatting**: Define your own headers, delimiters, quoting rules, and transformations.
 - **Event Hooks**: Execute callbacks before, during, and after the download process—perfect for analytics or logging.
@@ -103,19 +102,19 @@ export default function AdvancedExample() {
 
 ## Props
 
-| Prop               | Type                                               | Required | Default                  | Description                                                                       |
-| ------------------ | -------------------------------------------------- | -------- | ------------------------ | --------------------------------------------------------------------------------- |
-| data               | `T[] where T extends Record<string, unknown>`      | Yes      |                          | The dataset to be converted into CSV.                                             |
-| filename           | `string`                                           | Yes      |                          | The name of the CSV file to be downloaded.                                        |
-| delimiter          | `string`                                           | No       | `","`                    | Delimiter used to separate values in the CSV.                                     |
-| quoteValues        | `boolean`                                          | No       | `true`                   | Whether to quote values in the CSV file.                                          |
-| transformValue     | `(value: unknown, key: keyof T, row: T) => string` | No       | `(v) => String(v ?? "")` | Function to transform each value before writing to the CSV.                       |
-| customHeaders      | `string[]`                                         | No       | Derived from data keys   | Override the auto-generated headers. Must match the number of columns in data[0]. |
-| customButton       | `React.ReactNode`                                  | No       | `null`                   | Use a custom React node as the trigger.                                           |
-| emptyDataMessage   | `string`                                           | No       | `"No data available."`   | Message displayed if data is empty.                                               |
-| onDownloadStart    | `() => void`                                       | No       | `undefined`              | Callback before the download process begins.                                      |
-| onDownloadComplete | `() => void`                                       | No       | `undefined`              | Callback after the CSV is successfully generated and triggered for download.      |
-| onError            | `(error: Error) => void`                           | No       | `undefined`              | Callback invoked if an error occurs during CSV generation.                        |
+| Prop                 | Type                                                  | Required | Default                  | Description                                                                         |
+| -------------------- | ----------------------------------------------------- | -------- | ------------------------ | ----------------------------------------------------------------------------------- | ----------- | --- | --- | ------------------------------------- |
+| `data`               | `T[] where T extends Record<string, string            | number   | boolean                  | null                                                                                | undefined>` | Yes |     | The dataset to be converted into CSV. |
+| `filename`           | `string`                                              | Yes      |                          | The name of the CSV file to be downloaded.                                          |
+| `delimiter`          | `string`                                              | No       | `","`                    | Delimiter used to separate values in the CSV.                                       |
+| `quoteValues`        | `boolean`                                             | No       | `true`                   | Whether to quote values in the CSV file.                                            |
+| `transformValue`     | `(value: T[keyof T], key: keyof T, row: T) => string` | No       | `(v) => String(v ?? "")` | Function to transform each value before writing to the CSV.                         |
+| `customHeaders`      | `string[]`                                            | No       | Derived from data keys   | Override the auto-generated headers. Must match the number of columns in `data[0]`. |
+| `customButton`       | `React.ReactNode`                                     | No       | `null`                   | Use a custom React node as the trigger.                                             |
+| `emptyDataMessage`   | `string`                                              | No       | `"No data available."`   | Message displayed if data is empty.                                                 |
+| `onDownloadStart`    | `() => void`                                          | No       | `undefined`              | Callback before the download process begins.                                        |
+| `onDownloadComplete` | `() => void`                                          | No       | `undefined`              | Callback after the CSV is successfully generated and triggered for download.        |
+| `onError`            | `(error: Error) => void`                              | No       | `undefined`              | Callback invoked if an error occurs during CSV generation.                          |
 
 ## Contributing
 

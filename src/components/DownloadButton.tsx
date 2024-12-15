@@ -4,7 +4,9 @@ import React, { useCallback } from "react";
 import { DownloadButtonProps } from "../types";
 import { generateCsvContent } from "../utils/generateCSV";
 
-function DownloadButton<T extends Record<string, unknown>>(props: DownloadButtonProps<T>) {
+function DownloadButton<
+  T extends Record<string, string | number | boolean | null | undefined>
+>(props: DownloadButtonProps<T>) {
   const {
     data,
     filename,
@@ -52,10 +54,20 @@ function DownloadButton<T extends Record<string, unknown>>(props: DownloadButton
 
       URL.revokeObjectURL(url);
       if (onDownloadComplete) onDownloadComplete();
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof Error && onError) onError(error);
     }
-  }, [data, delimiter, quoteValues, transformValue, customHeaders, filename, onDownloadStart, onDownloadComplete, onError]);
+  }, [
+    data,
+    delimiter,
+    quoteValues,
+    transformValue,
+    customHeaders,
+    filename,
+    onDownloadStart,
+    onDownloadComplete,
+    onError,
+  ]);
 
   if (!data || data.length === 0) {
     return <span>{emptyDataMessage}</span>;
