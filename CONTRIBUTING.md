@@ -1,4 +1,4 @@
-# Contributing to Next.js Reusable Table
+# Contributing to React Csvify
 
 Thank you for considering contributing to the **React Csvify** project! Your contributions are highly appreciated.
 
