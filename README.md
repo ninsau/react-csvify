@@ -116,3 +116,26 @@ export default function AdvancedExample() {
 | onDownloadStart    | `() => void`                                       | No       | `undefined`              | Callback before the download process begins.                                      |
 | onDownloadComplete | `() => void`                                       | No       | `undefined`              | Callback after the CSV is successfully generated and triggered for download.      |
 | onError            | `(error: Error) => void`                           | No       | `undefined`              | Callback invoked if an error occurs during CSV generation.                        |
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
+
+## Versioning
+
+We use [Semantic Versioning](https://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ninsau/nextjs-reusable-table/tags).
+
+To bump the version, update the `version` field in `package.json` and follow the guidelines in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+## License
+
+This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+
+## Code of Conduct
+
+This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
+## Acknowledgments
+
+- Inspired by common data table patterns in React and Next.js applications.
+- Thanks to all contributors and users for their support.

@@ -1,0 +1,52 @@
+{
+  "name": "react-csvify",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ninsau/react-csvify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ninsau/react-csvify/issues"
+  },
+  "homepage": "https://github.com/ninsau/react-csvify#readme",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 1",
+    "build": "tsup src/index.ts --format esm,cjs --dts"
+  },
+  "author": "ninsau",
+  "license": "ISC",
+  "description": "A composable, extensible, and fully typed React component for generating and downloading CSV files from any dataset.",
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.9",
+    "@types/react-dom": "^18.3.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  },
+  "keywords": [
+    "react",
+    "csv",
+    "download",
+    "export",
+    "typescript",
+    "data",
+    "component",
+    "ui",
+    "csv download",
+    "csv export",
+    "react csv"
+  ]
+}
