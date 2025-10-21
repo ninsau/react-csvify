@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useCallback } from "react";
-import { DownloadButtonProps } from "../types";
-import { generateCsvContent } from "../utils/generateCSV";
+import type { DownloadButtonProps } from "../types";
+import { generateContent, generateContentWithProgress } from "../utils/generateCSV";
+import type { ExportFormat } from "../types";
 
 function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
   const {
@@ -17,9 +18,21 @@ function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
     onDownloadStart,
     onDownloadComplete,
     onError,
+    onProgress,
+    chunkSize = 1000,
   } = props;
 
-  const handleDownload = useCallback(() => {
+  // Determine export format from filename
+  const getFormatFromFilename = (fname: string): ExportFormat => {
+    const ext = fname.split(".").pop()?.toLowerCase();
+    if (ext === "tsv") return "tsv";
+    if (ext === "json") return "json";
+    return "csv";
+  };
+
+  const format = getFormatFromFilename(filename);
+
+  const handleDownload = useCallback((): void => {
     if (!data || data.length === 0) {
       if (onError) onError(new Error("No data available"));
       return;
@@ -27,19 +40,44 @@ function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
 
     try {
       if (onDownloadStart) onDownloadStart();
-      const csvContent = generateCsvContent({
-        data,
-        delimiter,
-        quoteValues,
-        transformValue,
-        customHeaders,
-      });
 
-      if (!csvContent) {
-        throw new Error("Failed to generate CSV content");
+      // Generate content based on format
+      let fileContent: string;
+      if (onProgress && data.length > chunkSize) {
+        fileContent = generateContentWithProgress(
+          data,
+          format,
+          onProgress,
+          {
+            delimiter,
+            quoteValues,
+            transformValue,
+            customHeaders,
+            prettifyJson: true,
+          }
+        );
+      } else {
+        fileContent = generateContent(data, format, {
+          delimiter,
+          quoteValues,
+          transformValue,
+          customHeaders,
+          prettifyJson: true,
+        });
       }
 
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      if (!fileContent) {
+        throw new Error("Failed to generate content");
+      }
+
+      // Determine MIME type based on format
+      const mimeTypes: Record<ExportFormat, string> = {
+        csv: "text/csv;charset=utf-8;",
+        tsv: "text/tab-separated-values;charset=utf-8;",
+        json: "application/json;charset=utf-8;",
+      };
+
+      const blob = new Blob([fileContent], { type: mimeTypes[format] });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
 
@@ -53,7 +91,8 @@ function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
       URL.revokeObjectURL(url);
       if (onDownloadComplete) onDownloadComplete();
     } catch (error) {
-      if (error instanceof Error && onError) onError(error);
+      const err = error instanceof Error ? error : new Error(String(error));
+      if (onError) onError(err);
     }
   }, [
     data,
@@ -62,9 +101,12 @@ function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
     transformValue,
     customHeaders,
     filename,
+    format,
     onDownloadStart,
     onDownloadComplete,
     onError,
+    onProgress,
+    chunkSize,
   ]);
 
   if (!data || data.length === 0) {
@@ -76,13 +118,14 @@ function DownloadButton<T extends object>(props: DownloadButtonProps<T>) {
       {customButton}
     </div>
   ) : (
-    <a
+    <button
       onClick={handleDownload}
       style={{ cursor: "pointer" }}
-      className="text-indigo-500 text-sm hover:text-indigo-700 transition-colors duration-200 underline"
+      className="text-indigo-500 text-sm hover:text-indigo-700 transition-colors duration-200 underline bg-transparent border-none p-0"
+      type="button"
     >
-      Download CSV
-    </a>
+      Download {format.toUpperCase()}
+    </button>
   );
 }
 

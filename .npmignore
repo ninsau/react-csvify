@@ -1,0 +1,44 @@
+# Development
+src/
+tests/
+docs/
+.github/
+.husky/
+
+# Configuration
+vitest.config.ts
+tsconfig.json
+biome.json
+.biomeignore
+.gitignore
+.eslintrc
+.prettierrc
+
+# Build artifacts
+*.tsbuildinfo
+
+# Testing
+coverage/
+*.lcov
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System
+.DS_Store
+Thumbs.db
+
+# Package management
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

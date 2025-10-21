@@ -1,6 +1,6 @@
 {
   "name": "react-csvify",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -16,21 +16,40 @@
   },
   "homepage": "https://github.com/ninsau/react-csvify#readme",
   "scripts": {
-    "test": "echo \"No tests yet\" && exit 1",
-    "build": "tsup src/index.ts --format esm,cjs --dts"
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome lint src tests --apply",
+    "format": "biome format src tests --write",
+    "type-check": "tsc --noEmit",
+    "quality": "npm run lint && npm run type-check && npm run test:coverage",
+    "prepare": "husky install"
   },
   "author": "ninsau",
   "license": "ISC",
   "description": "A composable, extensible, and fully typed React component for generating and downloading CSV files from any dataset.",
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": ">=16",
+    "react-dom": ">=16"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/node": "^20.10.6",
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.1.0",
+    "@vitest/ui": "^1.1.0",
+    "husky": "^8.0.3",
+    "jsdom": "^23.0.1",
+    "lint-staged": "^15.2.2",
     "tsup": "^8.3.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^1.1.0"
   },
   "peerDependencies": {
     "react": ">=16",
@@ -47,6 +66,28 @@
     "ui",
     "csv download",
     "csv export",
-    "react csv"
-  ]
+    "react csv",
+    "tsv",
+    "json export"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "vitest": {
+    "globals": true,
+    "environment": "jsdom",
+    "coverage": {
+      "provider": "v8",
+      "reporter": [
+        "text",
+        "json",
+        "html",
+        "lcov"
+      ],
+      "lines": 80,
+      "functions": 80,
+      "branches": 80,
+      "statements": 80
+    }
+  }
 }
